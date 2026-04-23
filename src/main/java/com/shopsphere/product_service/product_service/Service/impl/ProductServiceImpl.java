@@ -4,6 +4,7 @@ import com.shopsphere.product_service.product_service.DTO.request.CreateProductR
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Entity.Product;
+import com.shopsphere.product_service.product_service.Exception.ProductNotFoundException;
 import com.shopsphere.product_service.product_service.Mapper.ProductMapper;
 import com.shopsphere.product_service.product_service.Repository.ProductRepository;
 import com.shopsphere.product_service.product_service.Service.ProductService;
@@ -31,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO updateProduct(UUID id, UpdateProductRequestDTO dto) {
         Product product =productRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Product not found with id: "+id));
+                .orElseThrow(()-> new ProductNotFoundException("Product not found with id: "+id));
         productMapper.updateProductFromDto(dto,product);
         product.setAvailable(product.getQuantity()>0);
         productRepository.save(product);
@@ -49,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDTO getProductById(UUID id) {
         return productRepository.findById(id)
                 .map(productMapper::toResponseDTO)
-                .orElseThrow(()-> new RuntimeException("Product not found with id: "+id));
+                .orElseThrow(()-> new ProductNotFoundException("Product not found with id: "+id));
     }
 
     @Override
