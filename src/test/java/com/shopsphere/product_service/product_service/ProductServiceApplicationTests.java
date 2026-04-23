@@ -1,4 +1,4 @@
-package com.stopsphere.product_service.product_service;
+package com.shopsphere.product_service.product_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

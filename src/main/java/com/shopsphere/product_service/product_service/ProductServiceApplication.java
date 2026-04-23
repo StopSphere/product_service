@@ -1,4 +1,4 @@
-package com.stopsphere.product_service.product_service;
+package com.shopsphere.product_service.product_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
