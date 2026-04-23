@@ -9,6 +9,9 @@ import com.shopsphere.product_service.product_service.Mapper.ProductMapper;
 import com.shopsphere.product_service.product_service.Repository.ProductRepository;
 import com.shopsphere.product_service.product_service.Service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,11 +43,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDTO> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(productMapper::toResponseDTO)
-                .toList();
-    }
+    public Page<ProductResponseDTO> getAllProducts(int page , int size) {
+        Pageable  pageable= PageRequest.of(page,size);
+        return productRepository.findAll(pageable).map(productMapper::toResponseDTO); }
 
     @Override
     public ProductResponseDTO getProductById(UUID id) {

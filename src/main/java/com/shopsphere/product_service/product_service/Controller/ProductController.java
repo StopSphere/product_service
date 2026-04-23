@@ -6,6 +6,7 @@ import com.shopsphere.product_service.product_service.DTO.response.ProductRespon
 import com.shopsphere.product_service.product_service.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,11 @@ public class ProductController {
         return ResponseEntity.ok(createdProduct);
     }
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+    public ResponseEntity<Page<ProductResponseDTO>> getAllProducts(
+            @RequestParam(defaultValue = "0" ) int page ,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return  ResponseEntity.ok(productService.getAllProducts(page, size));
     }
 
     @GetMapping("/{id}")
