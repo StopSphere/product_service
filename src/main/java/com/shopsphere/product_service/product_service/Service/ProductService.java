@@ -17,5 +17,5 @@ public interface ProductService {
 
     ProductResponseDTO getProductById(UUID id);
 
-    void deleteProduct(UUID id);
+    Void deleteProduct(UUID id);
 }
