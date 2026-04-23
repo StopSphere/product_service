@@ -4,6 +4,7 @@ import com.shopsphere.product_service.product_service.DTO.request.CreateProductR
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody CreateProductRequestDTO dto) {
+    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody @Valid CreateProductRequestDTO dto) {
         ProductResponseDTO createdProduct = productService.createProduct(dto);
         return ResponseEntity.ok(createdProduct);
     }

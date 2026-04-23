@@ -1,5 +1,8 @@
 package com.shopsphere.product_service.product_service.DTO.request;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
@@ -9,9 +12,15 @@ import lombok.*;
 @Builder
 public class CreateProductRequestDTO {
 
+    @NotBlank(message = "Product name is required")
     private String name;
+
     private String description;
+
+    @Positive(message = "Price must be greater than 0")
     private double price;
+
+    @Min(value = 0, message = "Quantity cannot be negative")
     private int quantity;
     private String category;
     private String imageUrl;
