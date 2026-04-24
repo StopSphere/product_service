@@ -2,6 +2,7 @@ package com.shopsphere.product_service.product_service.Service.impl;
 
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
+import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Entity.Product;
 import com.shopsphere.product_service.product_service.Exception.ProductNotFoundException;
@@ -43,10 +44,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponseDTO> getAllProducts(int page , int size) {
-        Pageable  pageable= PageRequest.of(page,size);
-        return productRepository.findAll(pageable).map(productMapper::toResponseDTO); }
+    public PagedResponse<ProductResponseDTO> getAllProducts(int page, int size) {
 
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        List<ProductResponseDTO> content =
+                productPage.getContent()
+                        .stream()
+                        .map(productMapper::toResponseDTO)
+                        .toList();
+
+        return PagedResponse.<ProductResponseDTO>builder()
+                .products(content)
+                .page(productPage.getNumber())
+                .size(productPage.getSize())
+                .totalPages(productPage.getTotalPages())
+                .total(productPage.getTotalElements())
+                .isLastPage(productPage.isLast())
+                .build();
+    }
     @Override
     public ProductResponseDTO getProductById(UUID id) {
         return productRepository.findById(id)

@@ -2,6 +2,7 @@ package com.shopsphere.product_service.product_service.Controller;
 
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
+import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Service.ProductService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ public class ProductController {
         return ResponseEntity.ok(createdProduct);
     }
     @GetMapping
-    public ResponseEntity<Page<ProductResponseDTO>> getAllProducts(
+    public ResponseEntity<PagedResponse<ProductResponseDTO>> getAllProducts(
             @RequestParam(defaultValue = "0" ) int page ,
             @RequestParam(defaultValue = "10") int size
     ) {

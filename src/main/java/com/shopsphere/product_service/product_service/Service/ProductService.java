@@ -2,6 +2,7 @@ package com.shopsphere.product_service.product_service.Service;
 
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
+import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import org.springframework.data.domain.Page;
 
@@ -14,7 +15,7 @@ public interface ProductService {
 
     ProductResponseDTO updateProduct(UUID id, UpdateProductRequestDTO dto);
 
-    Page<ProductResponseDTO> getAllProducts(int page,int size);
+    PagedResponse<ProductResponseDTO> getAllProducts(int page, int size);
 
     ProductResponseDTO getProductById(UUID id);
 
