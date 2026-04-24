@@ -1,6 +1,7 @@
 package com.shopsphere.product_service.product_service.Service;
 
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
+import com.shopsphere.product_service.product_service.DTO.request.StockRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
@@ -21,4 +22,8 @@ public interface ProductService {
 
     public PagedResponse<ProductResponseDTO> searchProductsByName(String name, int page, int size);
     Void deleteProduct(UUID id);
+
+    public void updateStock(UUID id, int quantity);
+
+    public void reduceStock(UUID id, int quantity);
 }

@@ -1,6 +1,7 @@
 package com.shopsphere.product_service.product_service.Controller;
 
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
+import com.shopsphere.product_service.product_service.DTO.request.StockRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
@@ -25,14 +26,15 @@ public class ProductController {
         ProductResponseDTO createdProduct = productService.createProduct(dto);
         return ResponseEntity.ok(createdProduct);
     }
+
     @GetMapping
     public ResponseEntity<PagedResponse<ProductResponseDTO>> getAllProducts(
-            @RequestParam(defaultValue = "0" ) int page ,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue= "id") String sortBy,
-            @RequestParam(defaultValue="asc") String sortDirection
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection
     ) {
-        return  ResponseEntity.ok(productService.getAllProducts(page, size,sortBy,sortDirection));
+        return ResponseEntity.ok(productService.getAllProducts(page, size, sortBy, sortDirection));
     }
 
     @GetMapping("/{id}")
@@ -48,20 +50,31 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable UUID id , @RequestBody UpdateProductRequestDTO dto){
-        ProductResponseDTO updatedProduct=productService.updateProduct(id,dto);
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable UUID id, @RequestBody UpdateProductRequestDTO dto) {
+        ProductResponseDTO updatedProduct = productService.updateProduct(id, dto);
         return ResponseEntity.ok(updatedProduct);
     }
-@GetMapping("/search")
+
+    @GetMapping("/search")
     public ResponseEntity<PagedResponse<ProductResponseDTO>> searchProducts(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
-    ){
-        return ResponseEntity.ok(productService.searchProductsByName(keyword,page,size));
+    ) {
+        return ResponseEntity.ok(productService.searchProductsByName(keyword, page, size));
 
     }
 
+    @PatchMapping("/{id}/stock")
+    public ResponseEntity<Void> updateStock(@PathVariable UUID id, @RequestBody StockRequestDTO request) {
+        productService.updateStock(id, request.getQuantity());
+        return ResponseEntity.ok().build();
+    }
 
+    @PatchMapping("/{id}/reduce")
+    public ResponseEntity<Void> reduceStock(@PathVariable UUID id, @RequestBody StockRequestDTO request) {
+        productService.reduceStock(id, request.getQuantity());
+        return ResponseEntity.ok().build();
+
+    }
 }
-
