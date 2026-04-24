@@ -28,9 +28,11 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<PagedResponse<ProductResponseDTO>> getAllProducts(
             @RequestParam(defaultValue = "0" ) int page ,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue= "id") String sortBy,
+            @RequestParam(defaultValue="asc") String sortDirection
     ) {
-        return  ResponseEntity.ok(productService.getAllProducts(page, size));
+        return  ResponseEntity.ok(productService.getAllProducts(page, size,sortBy,sortDirection));
     }
 
     @GetMapping("/{id}")

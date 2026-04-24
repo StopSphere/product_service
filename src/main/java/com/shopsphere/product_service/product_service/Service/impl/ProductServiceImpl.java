@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,9 +45,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PagedResponse<ProductResponseDTO> getAllProducts(int page, int size) {
+    public PagedResponse<ProductResponseDTO> getAllProducts(int page, int size,String sortBy,String sortDirection) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort=sortDirection.equals("asc")? Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size,sort);
         Page<Product> productPage = productRepository.findAll(pageable);
 
         List<ProductResponseDTO> content =

@@ -15,7 +15,7 @@ public interface ProductService {
 
     ProductResponseDTO updateProduct(UUID id, UpdateProductRequestDTO dto);
 
-    PagedResponse<ProductResponseDTO> getAllProducts(int page, int size);
+    PagedResponse<ProductResponseDTO> getAllProducts(int page, int size,String sortBy,String sortDirection);
 
     ProductResponseDTO getProductById(UUID id);
 
