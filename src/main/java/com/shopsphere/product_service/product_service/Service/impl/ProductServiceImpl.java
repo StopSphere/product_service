@@ -5,6 +5,7 @@ import com.shopsphere.product_service.product_service.DTO.request.UpdateProductR
 import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Entity.Product;
+import com.shopsphere.product_service.product_service.Exception.InsufficientStockException;
 import com.shopsphere.product_service.product_service.Exception.ProductNotFoundException;
 import com.shopsphere.product_service.product_service.Mapper.ProductMapper;
 import com.shopsphere.product_service.product_service.Repository.ProductRepository;
@@ -114,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
         Product product=productRepository.findById(id)
                 .orElseThrow(()-> new ProductNotFoundException("Product not found with id: "+id));
         if(product.getQuantity()<quantity){
-            throw new IllegalArgumentException("Not enough stock for product with id: "+id);
+            throw new InsufficientStockException("Stock exceeded");
         }
         product.setQuantity(product.getQuantity()-quantity);
         product.setAvailable(product.getQuantity()>0);
