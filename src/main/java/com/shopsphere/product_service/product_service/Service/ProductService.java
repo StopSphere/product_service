@@ -19,5 +19,6 @@ public interface ProductService {
 
     ProductResponseDTO getProductById(UUID id);
 
+    public PagedResponse<ProductResponseDTO> searchProductsByName(String name, int page, int size);
     Void deleteProduct(UUID id);
 }

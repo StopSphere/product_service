@@ -45,6 +45,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public PagedResponse<ProductResponseDTO> searchProductsByName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepository.findByNameContainingIgnoreCase(name, pageable);
+
+        List<ProductResponseDTO> content =
+                productPage.getContent()
+                        .stream()
+                        .map(productMapper::toResponseDTO)
+                        .toList();
+
+        return PagedResponse.<ProductResponseDTO>builder()
+                .products(content)
+                .page(productPage.getNumber())
+                .size(productPage.getSize())
+                .totalPages(productPage.getTotalPages())
+                .total(productPage.getTotalElements())
+                .isLastPage(productPage.isLast())
+                .build();
+    }
+
+    @Override
     public PagedResponse<ProductResponseDTO> getAllProducts(int page, int size,String sortBy,String sortDirection) {
 
         Sort sort=sortDirection.equals("asc")? Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
@@ -78,4 +99,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
         return null;
     }
+
+
 }
