@@ -19,9 +19,6 @@ public class CreateProductRequestDTO {
 
     @Positive(message = "Price must be greater than 0")
     private double price;
-
-    @Min(value = 0, message = "Quantity cannot be negative")
-    private int quantity;
     private String category;
     private String imageUrl;
 }

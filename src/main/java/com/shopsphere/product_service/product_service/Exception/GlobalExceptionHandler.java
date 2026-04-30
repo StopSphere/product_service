@@ -4,8 +4,6 @@ import com.shopsphere.product_service.product_service.DTO.ErrorResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -52,15 +50,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InsufficientStockException.class)
-    public ResponseEntity<ErrorResponseDTO> handleInsufficientStockException(InsufficientStockException ex, HttpServletRequest request) {
-        ErrorResponseDTO error=ErrorResponseDTO.builder()
-                .timestamp(LocalDateTime.now())
-                .status(400)
-                .error("Bad Request")
-                .message(ex.getMessage())
-                .path(request.getRequestURI())
-                .build();
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
 }

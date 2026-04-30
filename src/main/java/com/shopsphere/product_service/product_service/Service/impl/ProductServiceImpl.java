@@ -1,15 +1,14 @@
 package com.shopsphere.product_service.product_service.Service.impl;
-
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Entity.Product;
-import com.shopsphere.product_service.product_service.Exception.InsufficientStockException;
 import com.shopsphere.product_service.product_service.Exception.ProductNotFoundException;
 import com.shopsphere.product_service.product_service.Mapper.ProductMapper;
 import com.shopsphere.product_service.product_service.Repository.ProductRepository;
 import com.shopsphere.product_service.product_service.Service.ProductService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +29,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDTO createProduct(CreateProductRequestDTO dto) {
         Product product =productMapper.toEntity(dto);
-            product.setAvailable(product.getQuantity()>0);
             productRepository.save(product);
             return productMapper.toResponseDTO(product);
     }
@@ -40,7 +38,6 @@ public class ProductServiceImpl implements ProductService {
         Product product =productRepository.findById(id)
                 .orElseThrow(()-> new ProductNotFoundException("Product not found with id: "+id));
         productMapper.updateProductFromDto(dto,product);
-        product.setAvailable(product.getQuantity()>0);
         productRepository.save(product);
         return productMapper.toResponseDTO(product);
     }
@@ -100,27 +97,4 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
         return null;
     }
-
-    @Override
-    public void updateStock(UUID id, int quantity) {
-        Product product=productRepository.findById(id)
-                .orElseThrow(()-> new ProductNotFoundException("Product not found with id: "+id));
-        product.setQuantity(quantity);
-        product.setAvailable(quantity>0);
-        productRepository.save(product);
-    }
-
-    @Override
-    public void reduceStock(UUID id, int quantity) {
-        Product product=productRepository.findById(id)
-                .orElseThrow(()-> new ProductNotFoundException("Product not found with id: "+id));
-        if(product.getQuantity()<quantity){
-            throw new InsufficientStockException("Stock exceeded");
-        }
-        product.setQuantity(product.getQuantity()-quantity);
-        product.setAvailable(product.getQuantity()>0);
-        productRepository.save(product);
-    }
-
-
 }

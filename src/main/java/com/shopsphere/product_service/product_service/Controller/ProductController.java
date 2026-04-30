@@ -1,14 +1,12 @@
 package com.shopsphere.product_service.product_service.Controller;
 
 import com.shopsphere.product_service.product_service.DTO.request.CreateProductRequestDTO;
-import com.shopsphere.product_service.product_service.DTO.request.StockRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.request.UpdateProductRequestDTO;
 import com.shopsphere.product_service.product_service.DTO.response.PagedResponse;
 import com.shopsphere.product_service.product_service.DTO.response.ProductResponseDTO;
 import com.shopsphere.product_service.product_service.Service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,16 +63,4 @@ public class ProductController {
 
     }
 
-    @PatchMapping("/{id}/stock")
-    public ResponseEntity<Void> updateStock(@PathVariable UUID id, @RequestBody StockRequestDTO request) {
-        productService.updateStock(id, request.getQuantity());
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/{id}/reduce")
-    public ResponseEntity<Void> reduceStock(@PathVariable UUID id, @RequestBody StockRequestDTO request) {
-        productService.reduceStock(id, request.getQuantity());
-        return ResponseEntity.ok().build();
-
-    }
 }
