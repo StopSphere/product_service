@@ -61,4 +61,9 @@ Linux/Mac:
 ./gradlew bootRun
 ```
 
-**Service runs on port 8081**
+**Service runs on port 8081** 
+
+# **Implementation of Swagger UI:**
+- Swagger UI: `http://localhost:8081/swagger-ui.html`
+- OpenAPI spec (JSON): `http://localhost:8081/v3/api-docs`
+- There is all apis are public is need not to worry about authentication
