@@ -64,6 +64,6 @@ Linux/Mac:
 **Service runs on port 8081** 
 
 # **Implementation of Swagger UI:**
-- Swagger UI: `http://localhost:8081/swagger-ui.html`
+- Swagger UI: `http://localhost:8081/swagger-ui/index.html`
 - OpenAPI spec (JSON): `http://localhost:8081/v3/api-docs`
-- There is all apis are public is need not to worry about authentication
+- All APIs are public; authentication is not required.
